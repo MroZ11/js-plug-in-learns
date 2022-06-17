@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+	<link
+    rel="stylesheet"
+    href="animate-4.1.1.min.css"
+  />
+  
+<head>
+
+<style>
+
+</style>
+
+</head>
+<body>
+
+<div  class="mainContent">
+
+  <h1 class="animate__animated animate__bounce">An animated element</h1>
+	
+  <button id='jsCtl' onclick="jsCtl()" >Click Me</button>
+
+
+</div>
+	
+	
+	
+</body>
+<script src="jquery.js" type="text/javascript" charset="utf-8"></script> 
+
+
+<script type="text/javascript"> 
+function jsCtl(){
+	const element = document.getElementById('jsCtl')
+	element.classList.add('animate__animated', 'animate__bounce');
+}
+
+$(document).ready(function()
+{
+	const element = document.getElementById('jsCtl')
+	element.addEventListener('animationend', () => {
+			element.setAttribute('class', '');
+			alert('animationend')
+	});
+ 
+
+}); 
+ 
+</script> 
+
+</html>

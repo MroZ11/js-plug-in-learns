@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+<link rel="stylesheet" type="text/css" href="DateTimePicke/dist/DateTimePicker.min.css" />
+<link rel="stylesheet" href="flatpickr/flatpickr.min.css">
+
+
+
+</head>
+<body>
+	<form action="http://127.0.0.1:8080/atmeter/account/login" method="post" enctype="application/x-download">
+		<input name="key" />
+		<button type="submit">提交</button>
+	</form>
+	
+	
+	<button onclick="download1()">下载测试1</button>
+	<button  onclick="download2()">下载测试2</button>
+	<button  onclick="download3()">下载测试3</button>
+	
+	<div>
+		<!--  DateTime Input  -->
+	 <p>DateTimePicker : </p>
+	 <input type="text" data-field="datetime" readonly>
+	 <div id="DateTimePicker"></div>
+	</div>
+	
+	
+	
+	<div>
+		<!--  DateTime Input  -->
+	 <p>flatpickr : </p>
+	 <input type="text" id="flatpickr" readonly>
+	 
+	 <p>flatpickr-range : </p>
+	 <input type="text" id="flatpickr-range" readonly>
+	 
+	 
+	 <p>flatpickr-range-dynamic-disable : </p>
+	 <input type="text" id="flatpickr-range-dynamic-disable" readonly>
+	 
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</body>
+<script src="jquery.js" type="text/javascript" charset="utf-8"></script> 
+<script src="moment.js" type="text/javascript" charset="utf-8"></script> 
+<script src="day.js" type="text/javascript" charset="utf-8"></script> 
+<script type="text/javascript" src="download.js"> </script> 
+<script type="text/javascript" src="DateTimePicke/dist/DateTimePicker.min.js"></script>
+<script type="text/javascript" src="DateTimePicke/dist/i18n/DateTimePicker-i18n.js"></script>
+<script src="flatpickr/flatpickr.js"></script>
+<script src="flatpickr/zh.js"></script>
+<script type="text/javascript"> 
+
+function download1(){
+	download("hello world", "dlText.txt", "text/plain");
+}
+
+function download2(){
+	var x=new XMLHttpRequest();
+	x.open("GET", "http://danml.com/wave2.gif", true);
+	x.responseType = 'blob';
+	x.onload=function(e){download(x.response, "dlBinAjax.gif", "image/gif" ); }
+	x.send();
+}
+function download3(){
+	$.post('http://127.0.0.1:8080/atmeter/account/login', {
+		ids : 1,
+		operType : 1
+	}, function(r) {
+		download.bind(true)
+	});
+}
+
+ 
+window.onload=function(){ 
+ 
+	 
+}
+
+
+ $(document).ready(function()
+ {
+   
+     $("#DateTimePicker").DateTimePicker({
+		dateTimeFormat:"yyyy-MM-dd HH:mm:ss",
+		language:"zh-CN"
+	 });
+	 
+	 
+	 $("#flatpickr").flatpickr({
+	 
+		 enableTime: true,
+		 dateFormat: "Y-m-d H:i:ss",
+		 locale: "zh",
+		 time_24hr:true
+	 
+	 });
+	 
+	 
+	 $("#flatpickr-range").flatpickr({
+		 dateFormat: "Y-m-d H:i:ss",
+		 locale: "zh",
+		 time_24hr:true,
+		 mode: "range",
+		 minDate: "today",
+		 dateFormat: "Y-m-d"
+	 
+	 });
+	 
+	 //设置一周内的起始时间默认是星期天0
+	 flatpickr.l10ns.zh.firstDayOfWeek = 1;
+	 $("#flatpickr-range-dynamic-disable").flatpickr({
+		 dateFormat: "Y-m-d H:i:ss",
+		 locale: 'zh' ,
+		 time_24hr:true,
+		 mode: "range",
+		 dateFormat: "Y-m-d",
+		 onChange: function(selectedDates, dateStr, $instance) {
+			if(selectedDates!=null&&selectedDates.length==1){
+				///选中起始时间时设置，可选时间范围设置为3天内
+				//Moment.js对象是可变的add后返回的是原实例,Day.js操作后才会返回新实例
+				//建议还是使用day.js
+				var selectDateMoment = dayjs(selectedDates[0])
+				var form = selectDateMoment.add(-3, 'days').format('YYYY-MM-DD');
+				var to = selectDateMoment.add(3, 'days').format('YYYY-MM-DD');
+				$instance.set('enable',[{
+					from: form,
+					to: to
+				}])
+			}
+		 },
+		 onOpen:function(selectedDates, dateStr, $instance) {
+			//重置所有时间可用
+			$instance.set('enable',[
+				function(date) {
+					return true;
+				}
+			])
+		 } 
+	 });
+	
+	 
+	 
+	 
+   
+ }); 
+ 
+</script> 
+
+</html>

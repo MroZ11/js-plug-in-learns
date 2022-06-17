@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+<body>
+	<div>
+		<h3>1、Test</h3>
+		<div class="diff">
+			<h5>Diff with js reative</h5>
+			<input id='diff-input-1' value='0.1' disabled/>
+			+
+			<input id='diff-input-2' value='0.2' disabled/>
+			=
+			<input  id='diff-input-3'  value='' readonly/>
+			<button id='diff-jsCal'>原生计算</button>
+			<button id='diff-mexp'>mexp计算</button>
+		</div>
+		
+		
+		<div class="strMathCal">
+			<h5>Handler yourself</h5>
+			<input id='strMathCal-input-1' placeholder='input math there'/>
+			=
+			<input  id='strMathCal-input-2' readonly/>
+			<button id='strMathCal'>mexp计算</button>
+		</div>
+	
+	</div>
+	
+	
+	<div>
+		<h3>2、Example</h3>
+		
+		<table border>
+			<thead>
+			<tr>
+				<td>Input</td>
+				<td>Result</td>
+				<td>Explanation</td>
+			</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>2+3-1</td>
+					<td>4</td>
+					<td>Addition and Subtraction operator</td>
+				</tr>
+				<tr>
+					<td>2*5/10</td>
+					<td>1</td>
+					<td>Multiplication and Division operator</td>
+				</tr>
+				<tr>
+					<td>tan45 or tan(45)</td>
+					<td>1</td>
+					<td>Trigonometric Function (tan in Degree mode)</td>
+				</tr>
+				<tr>
+					<td>tan45 or tan(45)</td>
+					<td>1.619775190543862</td>
+					<td>Trigonometric Function (tan in Radian mode)</td>
+				</tr>
+				<tr>
+					<td>Pi1,15,n or Pi(1,15,n)</td>
+					<td>1307674368000</td>
+					<td>Product of Sequence</td>
+				</tr>
+				<tr>
+					<td>Sigma1,15,n or Sigma(1,15,n)</td>
+					<td>120</td>
+					<td>Sum of Sequence (also called summation)</td>
+				</tr>
+				<tr>
+					<td>2^3</td>
+					<td>8</td>
+					<td>Exponent (note this operator is left associative like MS Office)</td>
+				</tr>
+				<tr>
+					<td>5P3</td>
+					<td>60</td>
+					<td>Permutaion Method to calculate all the permutaions</td>
+				</tr>
+				<tr>
+					<td>sincostan90 or sin(cos(tan(90)))</td>
+					<td>0.017261434031253</td>
+					<td>Multiple functions with or without parenthesis (both works)</td>
+				</tr>
+			</tbody>
+		</table>
+		
+	
+	
+	
+	</div>
+	
+	
+	<div>
+	
+	<h3>
+		3、More infomation There 
+	</h3>
+		<a target='_blank' href='https://github.com/bugwheels94/math-expression-evaluator#math-expression-evaluator'>https://github.com/bugwheels94/math-expression-evaluator#math-expression-evaluator'</a>
+	</div>
+	
+	
+	
+	
+	
+
+	
+	
+	
+</body>
+<script src="jquery.js" type="text/javascript" charset="utf-8"></script> 
+<script src="math-expression-evaluator.min.js" type="text/javascript" charset="utf-8"></script> 
+
+<script type="text/javascript"> 
+
+
+
+
+ $(document).ready(function()
+ {
+     $('#diff-jsCal').click(function(){
+		var result = Number( $('#diff-input-1').val()) +Number($('#diff-input-2').val())
+		$('#diff-input-3').val(result)
+	 })
+	 
+	 $('#diff-mexp').click(function(){
+		var result = Mexp.eval(  $('#diff-input-1').val() + '+' + $('#diff-input-2').val()  );  
+		$('#diff-input-3').val(result)
+	 })
+	 
+	 $('#strMathCal').click(function(){
+		var result = Mexp.eval(  $('#strMathCal-input-1').val()   ); 
+		console.log(typeof  result)
+		$('#strMathCal-input-2').val(result)
+	 })
+   
+ }); 
+ 
+</script> 
+
+</html>

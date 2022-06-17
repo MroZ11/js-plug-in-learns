@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+
+
+</head>
+<body>
+
+<div>
+	<h3>1、Parsing and Transform</h3>
+
+	<div>
+		<h6>NowTime</h6>
+		<p id="nowTime"></p>
+	</div>
+	
+	<div>
+	<h6>TimeStamp parse</h6>
+		<input id='input1' value='1654148566258'  /> 
+		use format
+	  <select id='select-format'>
+		<option value='YYYY-MM-DD HH:mm:ss' selected>YYYY-MM-DD HH:mm:ss</option>
+		<option value='YYYY-MM-DD' >YYYY-MM-DD</option>
+		<option value='YYYY-MM-DD HH:mm:ss.SSS' >YYYY-MM-DD HH:mm:ss.SSS</option>
+	  </select>
+	  =>
+	 <input id="reslut1" readonly/> 
+	 <button onclick="tsTrans()">DO</button> 
+	</div>
+
+</div>
+
+
+
+<div>
+	<h3>2、Get Set</h3>
+	<input id='inputTime'  class='defaultNow' /> 
+	<button onclick="getAllField()">Get Feild  =></button>
+	<label>year:</label><input style='width:50px' id='year' readonly/> 
+	<label>month(0 as first):</label><input style='width:50px' id='month' readonly/> 
+	<label>date:</label><input style='width:50px' id='date' readonly/> 
+	<label>hour:</label><input style='width:50px' id='hour' readonly/> 
+	<label>minute:</label><input style='width:50px' id='minute' readonly/> 
+	<label>second:</label><input style='width:50px' id='second' readonly/> 
+	<label>millisecond:</label><input style='width:50px' id='millisecond' readonly/> 
+</div>
+
+
+<div>
+	<h3>3、Adjust</h3>
+	
+	<div>
+		<input id='inputTime2'   class='defaultNow' readonly/> 
+		<label>add day:</label><input style='width:80px' id='addDay' placeholder='Input Days' /> 
+		<button onclick="doAdjust()">DO</button> 
+	</div>
+	
+	
+	<div>
+		<input id='inputTime3' class='defaultNow' readonly/> 
+		<button onclick="adjustStarAndEnd()">adjust to star and end =></button>
+		<label>monthStart:</label><input id='monthStart' readonly/> 
+		<label>monthEnd:</label><input id='monthEnd' readonly/> 
+	</div>
+
+	
+</div>
+
+
+
+<div>
+	<h3>4、compare</h3>
+	<label>Time 1 </label><input id='inputTime4' class='defaultNow' /> 
+	<label>Time 2 </label><input id='inputTime5' class='defaultNow' /> 
+	<button onclick="compare()">compare</button> click compare answer
+	
+	<div>
+		<h6>Q1.Is before or after？</h6>
+		<P id='compareRelust1'>
+		</P>
+	</div>
+	
+	
+	<div>
+		<h6>Q2.How diff day？</h6>
+		<P id='compareRelust2'>
+		</P>
+	</div>
+	
+	<div>
+		<h6>Q3.How duration day？</h6>
+		<P id='compareRelust3'>
+		
+		</P>
+	</div>
+	
+</div>
+
+<div>
+	<h3>
+		5、More infomation There 
+	</h3>
+	<a target='_blank' href='https://day.js.org/'>https://day.js.org/</a>
+</div>
+
+
+
+
+	
+	
+	
+	
+	
+	
+</body>
+<script src="jquery.js" type="text/javascript" charset="utf-8"></script> 
+<script src="day.js" type="text/javascript" charset="utf-8"></script> 
+<script src="day-plugin-duration.js" type="text/javascript" charset="utf-8"></script> 
+
+<script type="text/javascript"> 
+
+//use dayjs_plugin_duration
+dayjs.extend(window.dayjs_plugin_duration)
+
+
+var defaultFormat = 'YYYY-MM-DD HH:mm:ss'
+
+function tsTrans(){
+	var timeStamp  = Number($("#input1").val())
+	var reslut = dayjs(timeStamp).format($('#select-format').val());
+	$("#reslut1").val(reslut)
+}
+
+function initGetSetDiv(){
+	var now =  dayjs()
+	$('.defaultNow').val(now.format(defaultFormat))
+}
+
+function getAllField(){
+	var now =  dayjs($('#inputTime').val())
+	$("#year").val(now.get('year'))
+	$("#month").val(now.get('month'))
+	$("#date").val(now.get('date'))
+	$("#hour").val(now.get('hour'))
+	$("#minute").val(now.get('minute'))
+	$("#second").val(now.get('second'))
+	$("#millisecond").val(now.get('millisecond'))
+}
+
+
+
+
+function nowTime(){
+	var now  = dayjs() 
+	$('#nowTime').text(now.format(defaultFormat))
+	//返回函数本身 可以使setInterval立即执行
+	return nowTime
+}
+
+function doAdjust(){
+  var now =  dayjs($('#inputTime2').val())
+  var adjustVal =  Number($('#addDay').val())
+  now = now.add(adjustVal,'day')
+  
+  $('#inputTime2').val(now.format(defaultFormat)  )
+}
+
+function adjustStarAndEnd(){
+	var now =  dayjs($('#inputTime3').val())
+	var monthStart = dayjs(now).startOf('month')
+	var monthEnd = dayjs(now).endOf('month')
+	$('#monthStart').val(monthStart.format(defaultFormat))
+	$('#monthEnd').val(monthEnd.format(defaultFormat))
+}
+
+
+function compare(){
+
+	var time1 =  dayjs($('#inputTime4').val())
+	var time2 =  dayjs($('#inputTime5').val())
+	
+	var relust = ''
+	
+	if(time1.isBefore(time2)){
+		relust= 'Before'
+	}
+	if(time1.isSame(time2)){
+		relust= 'Same'
+	}
+	if(time1.isAfter(time2)){
+		relust= 'After'
+	}
+	var  compareRelust1 = '[time1]  is   ' + relust + '    [time2]'
+	$("#compareRelust1").text(compareRelust1)
+
+	var  compareRelust2 = time1.diff(time2,'day')
+	$("#compareRelust2").text(compareRelust2)
+	
+	
+	//need dayjs_plugin_duration
+	var duration = dayjs.duration(time1.diff(time2))
+	var  compareRelust3 = duration.as('day');
+	$("#compareRelust3").text(compareRelust3)
+	
+
+	
+	
+}
+
+
+
+ $(document).ready(function()
+ {
+ 
+  
+	
+   setInterval(nowTime(),1000)
+   
+   initGetSetDiv()
+   
+   
+     
+	
+	 
+	 
+	 
+   
+ }); 
+ 
+</script> 
+
+</html>

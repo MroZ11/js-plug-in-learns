@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<style>
+.desc{
+    font-size:14px;
+	color:#5f5f5f;
+}
+li {
+ margin-top: 30px;
+}
+textarea{
+	height:60px;
+	width:200px;
+}
+
+</style>
+
+</head>
+<body>
+
+<div  class="mainContent">
+	
+	
+	<div>
+		<h3 class='head'>1、stringify:格式化为参数字符串</h3>
+		
+		<div class="body">
+			<ul>
+				<li>
+					<a href="#stringify">对象格式化</a>
+					<div>
+					<text class='desc'>对象格式化</text>
+					</div>
+					<div class='ep' id='ep1'>
+						<label for='ep1-Inp1'>Source Objcet</label>
+						<input id='ep1-Inp1' value='{"name":"jay","age":15}' disabled/>
+						<label for='addQueryPrefix'>addQueryPrefix</label>
+						<select id="ep1-sel1">
+							<option value="false" >false</option>
+							<option value="true" >true</option>
+						</select>
+
+						<button onclick="stringifyObj()">Do Stringify=></button>
+						<textarea id='ep1-textarea1'  class='relust-area'> </textarea>
+					</div>
+					
+					
+				</li>
+				
+				<li>
+					<a href="#stringify">数组格式化</a>
+					<div>
+					<text class='desc'>数组格式化</text>
+					</div>
+					<div class='ep' id='ep2'>
+						<label for='ep2-Inp1'>Source Array</label>
+						<input id='ep2-Inp1' value='[1,3,5,7,9]' disabled/>
+						<button onclick="stringifyArray()">Do Stringify=></button>
+						<textarea id='ep2-textarea1'  class='relust-area'> </textarea>
+					</div>
+					
+					<div class='ep' id='ep3'>
+						<label for='ep3-Inp1'>Obj with Array</label>
+						<input id='ep3-Inp1' value='{"name":"jay","hobby":["eat","sleep","play"]}' disabled/>
+						<label for='ep3-sel1'>arrayFormat</label>
+						<select id="ep3-sel1">
+							<option value="indices" >indices</option>
+							<option value="brackets" >brackets</option>
+							<option value="repeat" >repeat</option>
+							<option value="comma" >comma</option>
+						</select>
+						<button onclick="stringifyArray2()">Do Stringify=></button>
+						<textarea id='ep3-textarea1'  class='relust-area'> </textarea>
+					</div>
+				</li>
+
+				
+				
+			</ul>
+		
+		</div>
+		
+	</div>
+	
+	
+	
+	<div>
+		<h3 class='head'>2、parse:参数字符串转对象</h3>
+		
+		<div class="body">
+			<ul>
+				<li>
+					<a href="#parse">转对象</a>
+					<div>
+					<text class='desc'>转对象</text>
+					</div>
+					
+					<div class='ep' id='ep21'>
+						<label for='ep21-Inp1'>Source Str</label>
+						<input id='ep21-Inp1' value='name=jay&age=15' disabled/>
+						<button onclick="parse()">Do Parse=></button>
+						<textarea id='ep21-textarea1'  class='relust-area'> </textarea>
+					</div>
+					
+					<div class='ep' id='ep22'>
+						<label for='ep22-Inp1'>Source Str</label>
+						<input id='ep22-Inp1' value='params[age]=18&params[name]=jay' disabled/>
+						<button onclick="parse2()">Do Parse=></button>
+						<textarea id='ep22-textarea1'  class='relust-area'> </textarea>
+					</div>
+
+				</li>
+				
+				
+				
+				<li>
+					<a href="#parse">转数组</a>
+					<div>
+					<text class='desc'>转数组</text>
+					</div>
+					
+					<div class='ep' id='ep23'>
+						<label for='ep23-Inp1'>Source Str</label>
+						<input id='ep23-Inp1' value='hobby=eat&hobby=sleep&hobby=read' disabled/>
+						<button onclick="parse3()">Do Parse=></button>
+						<textarea id='ep23-textarea1'  class='relust-area'> </textarea>
+					</div>
+					
+					
+					<div class='ep' id='ep24'>
+						<label for='ep24-Inp1'>Source Str</label>
+						<input id='ep24-Inp1' value='hobby[]=eat&hobby[]=sleep&hobby[]=read' disabled/>
+						<button onclick="parse4()">Do Parse=></button>
+						<textarea id='ep24-textarea1'  class='relust-area'> </textarea>
+					</div>
+					
+					<div class='ep' id='ep25'>
+						<label for='ep25-Inp1'>Source Str</label>
+						<input id='ep25-Inp1' value='hobby[0]=eat&hobby[1]=sleep&hobby[2]=read' disabled/>
+						<button onclick="parse5()">Do Parse=></button>
+						<textarea id='ep25-textarea1'  class='relust-area'> </textarea>
+					</div>
+					
+					<div class='ep' id='ep26'>
+						<label for='ep26-Inp1'>Source Str</label>
+						<input id='ep26-Inp1' value='hobby=eat,read,sleep' disabled/>
+						<button onclick="parse6()">Do Parse=></button>
+						<textarea id='ep26-textarea1'  class='relust-area'> </textarea>
+					</div>
+					
+					
+
+				</li>
+			
+
+				
+				
+			</ul>
+		
+		</div>
+		
+	</div>
+
+
+
+
+	<div class="footer">
+			<h5><a href='https://www.npmjs.com/package/qs' target='_blank'>More info</a></h5>
+	</div>
+
+</div>
+	
+	
+	
+</body>
+<script src="jquery.js" type="text/javascript" charset="utf-8"></script> 
+<script src="qs.min.js" type="text/javascript" charset="utf-8"></script> 
+
+
+<script type="text/javascript"> 
+function stringifyObj(){
+	var str = $('#ep1-Inp1').val()
+	var objcet = JSON.parse(str)
+	var addQueryPrefix =   $("#ep1-sel1").val()=='true'
+	var namedParams = Qs.stringify(objcet,{ addQueryPrefix: addQueryPrefix })
+	
+	
+	
+	
+	 $('#ep1-textarea1').val(namedParams)
+
+}
+
+
+function stringifyArray (){
+	var str = $('#ep2-Inp1').val()
+	var array = JSON.parse(str)
+	var namedParams = Qs.stringify(array)
+	 $('#ep2-textarea1').val(namedParams)
+}
+
+
+function stringifyArray2 (){
+	var str = $('#ep3-Inp1').val()
+	var objcet = JSON.parse(str)
+	var arrayFormat = $("#ep3-sel1").val()
+	console.log(arrayFormat)
+	//默认是encode的 会对字符串进行urlencode,这里方便展示关闭encode
+	var namedParams = Qs.stringify(objcet,{ arrayFormat: arrayFormat,encode: false})
+	 $('#ep3-textarea1').val(namedParams)
+}
+
+
+
+function parse(){
+	var str = $('#ep21-Inp1').val()
+	var obj = Qs.parse(str)
+	var objStr = JSON.stringify(obj)
+	$('#ep21-textarea1').val(objStr)
+}
+
+function parse2(){
+	var str = $('#ep22-Inp1').val()
+	var obj = Qs.parse(str)
+	var objStr = JSON.stringify(obj)
+	$('#ep22-textarea1').val(objStr)
+}
+
+function parse3(){
+	var str = $('#ep23-Inp1').val()
+	var obj = Qs.parse(str)
+	var objStr = JSON.stringify(obj)
+	$('#ep23-textarea1').val(objStr)
+}
+
+function parse4(){
+	var str = $('#ep24-Inp1').val()
+	var obj = Qs.parse(str)
+	var objStr = JSON.stringify(obj)
+	$('#ep24-textarea1').val(objStr)
+}
+
+function parse5(){
+	var str = $('#ep25-Inp1').val()
+	var obj = Qs.parse(str)
+	var objStr = JSON.stringify(obj)
+	$('#ep25-textarea1').val(objStr)
+}
+
+function parse6(){
+	var str = $('#ep26-Inp1').val()
+	//Set comma:true when cast split Str to array 
+	var obj = Qs.parse(str,{ comma: true })
+	var objStr = JSON.stringify(obj)
+	$('#ep26-textarea1').val(objStr)
+}
+
+
+
+
+
+
+$(document).ready(function()
+{
+	console.log(Qs)
+ 
+
+}); 
+ 
+</script> 
+
+</html>
